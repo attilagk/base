@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Project Title]]></title><description><![CDATA[Project description here Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, repudiandae!]]></description><link>http://github.com/dylang/node-rss</link><generator>Gulp 3.9.1</generator><lastBuildDate>Sun, 20 Aug 2017 21:48:43 GMT</lastBuildDate><atom:link href="/rss.xml" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Building the Site and Publishing on GitHub]]></title><description><![CDATA[<h2 id="git-repositories">Git repositories</h2>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Project Title]]></title><description><![CDATA[Project description here Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, repudiandae!]]></description><link>http://github.com/dylang/node-rss</link><generator>Gulp 3.9.1</generator><lastBuildDate>Sun, 20 Aug 2017 22:22:28 GMT</lastBuildDate><atom:link href="/rss.xml" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Building the Site and Publishing on GitHub]]></title><description><![CDATA[<h2 id="git-repositories">Git repositories</h2>
 <p>Suppose that your GitHub user name is <code>myUserName</code>, that you want to name your new website project as <code>myProject</code> and to publish the site using the <a href="https://pages.github.com/">GitHub Pages</a> free web hosting service.  You have the choice to publish your site</p>
 <ul>
 <li>either as a <a href="https://help.github.com/articles/user-organization-and-project-pages/#project-pages">project site</a></li>
@@ -144,7 +144,7 @@ jsonGallery: true
 <pre><code>template:    post.hbs
 ...
 jsonFile:    galleries/self-portraits.json
-jsonGallery: true
+jsonOrderedList: true
 </code></pre><h3 id="the-data">The data</h3>
 <p>The content of <code>$project_dir/edit/data/lists/greek-alphabet.json</code> is an array of hash objects.  The <code>json-ordered-list</code> handlebars template (below) expects each object to have property key: <code>li</code>, which matches the corresponding HTML element.  These data are imported into the <code>jsonData</code> variable.</p>
 <pre><code>[
@@ -443,6 +443,18 @@ You are free to add properties to this file for use in your Handlebars templates
 <td>optional</td>
 <td>a list of selectors that uncss should ignore (for example &quot;.container&quot; or &quot;#my-element&quot;)</td>
 </tr>
+<tr>
+<td>ghPagesBranch</td>
+<td>string</td>
+<td>optional</td>
+<td><code>gh-pages</code> for a project site and <code>master</code> for a user site</td>
+</tr>
+<tr>
+<td>ghPagesRemoteUrl</td>
+<td>string</td>
+<td>optional</td>
+<td><code>https://github.com/myUserName/myProject.git</code> for a project site and <code>https://github.com/myUserName/myUserName.git</code> for a user site</td>
+</tr>
 </tbody>
 </table>
 ]]></description><link>/configuration/</link><guid isPermaLink="false">/configuration/</guid><pubDate>Fri, 21 Jul 2017 04:00:00 GMT</pubDate></item><item><title><![CDATA[Handlebars Editing]]></title><description><![CDATA[<h2 id="important-folders">Important Folders</h2>
@@ -520,6 +532,31 @@ The rest of the template goes here as markdown text.
 <td>status</td>
 <td>optional</td>
 <td>set to &#39;draft&#39; to ignore the page or post when running the generator</td>
+</tr>
+<tr>
+<td>jsonFile</td>
+<td>optional</td>
+<td>path to JSON file whose data are to be included</td>
+</tr>
+<tr>
+<td>jsonGallery</td>
+<td>optional</td>
+<td>if <code>true</code> then format JSON data as an image gallery</td>
+</tr>
+<tr>
+<td>jsonOrderedList</td>
+<td>optional</td>
+<td>if <code>true</code> then format JSON data as an ordered list</td>
+</tr>
+<tr>
+<td>jsonUnorderedList</td>
+<td>optional</td>
+<td>if <code>true</code> then format JSON data as an unordered list</td>
+</tr>
+<tr>
+<td>json...</td>
+<td>optional</td>
+<td>if <code>true</code> then format JSON data as ... (for future templates)</td>
 </tr>
 </tbody>
 </table>
