@@ -7566,3 +7566,14 @@ table {
   @media screen and (max-width: 800px) {
     .container {
       width: 100%; } }
+
+.json-gallery {
+  display: flex;
+  flex-wrap: wrap; }
+  .json-gallery figure {
+    margin: 10px;
+    margin-bottom: 20px; }
+    .json-gallery figure img {
+      height: 270px; }
+    .json-gallery figure figcaption {
+      text-align: center; }

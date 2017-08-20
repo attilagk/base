@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width, initial-scale=1"><meta name=description><meta name=author><link rel=icon href=../favicon.ico><title>JSON gallery</title><link rel=stylesheet type=text/css href=../css/style.css><meta name=generator content="Gulp 3.9.1"><link rel=alternate type=application/rss+xml title="Project Title" href=../rss.xml></head><body><div class=container><h1>JSON gallery</h1><p class=post-meta>August 17th 2017 by <span></span> on <a href=../tag/mytag>mytag</a></p><hr><h2 id=the-front-matter>The front matter</h2><p><code>jsonFile</code> is the path to the JSON formatted data relative to the <code>$project_dir/edit/data</code> directory, where <code>$project_dir</code> defaults to <code>base</code>. Setting <code>jsonGallery: true</code> is used by the handlebars template to import the correct partial, in this case <code>json-gallery.hbs</code>.</p><pre><code>template:    post.hbs
+...
+jsonFile:    galleries/self-portraits.json
+jsonGallery: true
+</code></pre><h2 id=the-data>The data</h2><p>Below is the content of <code>$project_dir/edit/data/galleries/self-portraits.json</code> is an array of hash objects. Each object has two property keys: <code>figcaption</code> and <code>src</code> matching the corresponding HTML elements. <code>src</code> is a path to an image file relative to <code>$project_dir/edit/images/</code>, which resolves to paths such as <code>$project_dir/edit/images/self-portraits/close.jpg</code>.</p><pre><code>[
+    { &quot;figcaption&quot;: &quot;Chuck Close&quot;,
+        &quot;src&quot;: &quot;self-portraits/close.jpg&quot; },
+    { &quot;figcaption&quot;: &quot;El Greco&quot;,
+        &quot;src&quot;: &quot;self-portraits/el-greco.jpg&quot; },
+    ...
+    { &quot;figcaption&quot;: &quot;Vincent van Gogh&quot;,
+        &quot;src&quot;: &quot;self-portraits/van-gogh.jpg&quot; }
+]
+</code></pre><h2 id=the-templates>The templates</h2><h3 id=top-level-template>Top level template</h3><p>In this case the top level template is <code>post.hbs</code> but it could be <code>page.hbs</code> as well. The point is that the middle level partial template <code>json-main.hbs</code> is imported just below the <code>{{{body}}}</code>.</p><pre><code>{{&gt; header}}
+&lt;div class=&quot;container&quot;&gt;
+    {{#post}}
+            &lt;h1&gt;{{title}}&lt;/h1&gt;
+            &lt;p class=&quot;post-meta&quot;&gt;
+                    {{date format=&quot;MMMM Do YYYY&quot;}}
+                    by &lt;span&gt;{{author.name}}&lt;/span&gt;
+                    {{#if tags}} on {{{tags}}}{{/if}}
+                &lt;/p&gt;
+                &lt;hr&gt;
+            {{{body}}}
+            {{&gt; json-main}}
+    {{/post}}
+&lt;/div&gt;
+{{&gt; js}}
+</code></pre><h3 id=middle-level-template>Middle level template</h3><p>This is where the <code>jsonGallery</code> variable selects the bottom level template, <code>json-gallery.hbs</code></p><pre><code>&lt;hr&gt;
+{{#meta}}
+    {{#if jsonOrderedList}} {{&gt; json-ordered-list}}
+    {{else if jsonUnorderedList}} {{&gt; json-unordered-list}}
+    {{else if jsonGallery}} {{&gt; json-gallery}}
+    {{/if}}
+{{/meta}}
+</code></pre><h3 id=bottom-level-template>Bottom level template</h3><p>The data from the <code>jsonFile</code> (evaluating to <code>galleries/self-portraits.json</code>) was imported into the <code>jsonData</code> variable. Thus <code>{{#jsonData}}</code></p><pre><code>&lt;div class=json-gallery&gt;
+{{#jsonData}}
+    &lt;figure&gt;
+        &lt;img
+        src=&quot;../../images/{{src}}&quot;
+        alt=&quot;{{li}}&quot;&gt;    
+        &lt;figcaption&gt;{{figcaption}}&lt;/figcaption&gt;
+    &lt;/figure&gt;
+{{/jsonData}}
+&lt;/div&gt;
+</code></pre><h2 id=the-style-sheet-rule>The style sheet rule</h2><p>The previous code chunk shows that with the <code>json-gallery</code> template comes an HTML class of the same name. So the contents of the <code>&lt;div class=json-gallery&gt;</code> element is styled by the following rule in <code>layout.scss</code>.</p><pre><code>.json-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    figure {
+        margin: 10px;
+        margin-bottom: 20px;
+        img {
+            height: 270px;
+        }
+        figcaption {
+            text-align: center;
+        }
+    }
+}
+</code></pre><h2 id=the-result>The result</h2><hr><div class=json-gallery><figure><img src=../../images/self-portraits/close.jpg><figcaption>Chuck Close</figcaption></figure><figure><img src=../../images/self-portraits/el-greco.jpg><figcaption>El Greco</figcaption></figure><figure><img src=../../images/self-portraits/freud.jpg><figcaption>Lucian Freud</figcaption></figure><figure><img src=../../images/self-portraits/matisse.jpg><figcaption>Henri Matisse</figcaption></figure><figure><img src=../../images/self-portraits/picasso.jpg><figcaption>Pablo Picasso</figcaption></figure><figure><img src=../../images/self-portraits/rembrandt.jpg><figcaption>Rembrandt van Rijn</figcaption></figure><figure><img src=../../images/self-portraits/schiele.jpg><figcaption>Egon Schiele</figcaption></figure><figure><img src=../../images/self-portraits/van-gogh.jpg><figcaption>Vincent van Gogh</figcaption></figure></div></div><script type=text/javascript src=../js/combined.min.js></script></body></html>
