@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Project Title]]></title><description><![CDATA[Project description here Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, repudiandae!]]></description><link>http://github.com/dylang/node-rss</link><generator>Gulp 3.9.1</generator><lastBuildDate>Sun, 20 Aug 2017 21:30:06 GMT</lastBuildDate><atom:link href="/rss.xml" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Building the Site and Publishing on GitHub]]></title><description><![CDATA[<h2 id="git-repositories">Git repositories</h2>
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Project Title]]></title><description><![CDATA[Project description here Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, repudiandae!]]></description><link>http://github.com/dylang/node-rss</link><generator>Gulp 3.9.1</generator><lastBuildDate>Sun, 20 Aug 2017 21:48:43 GMT</lastBuildDate><atom:link href="/rss.xml" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[Building the Site and Publishing on GitHub]]></title><description><![CDATA[<h2 id="git-repositories">Git repositories</h2>
 <p>Suppose that your GitHub user name is <code>myUserName</code>, that you want to name your new website project as <code>myProject</code> and to publish the site using the <a href="https://pages.github.com/">GitHub Pages</a> free web hosting service.  You have the choice to publish your site</p>
 <ul>
 <li>either as a <a href="https://help.github.com/articles/user-organization-and-project-pages/#project-pages">project site</a></li>
@@ -49,13 +49,22 @@ gulp publish
 <li>for a <em>project site</em> it&#39;s <a href="https://myUserName.github.io/myProject/github/">https://myUserName.github.io/myProject/github/</a></li>
 <li>for a <em>user site</em> it&#39;s <a href="https://myUserName.github.io/myProject/">https://myUserName.github.io/myProject/</a></li>
 </ul>
-]]></description><link>/build-publish/</link><guid isPermaLink="false">/build-publish/</guid><pubDate>Sun, 20 Aug 2017 04:00:00 GMT</pubDate></item><item><title><![CDATA[JSON gallery]]></title><description><![CDATA[<h2 id="the-front-matter">The front matter</h2>
+]]></description><link>/build-publish/</link><guid isPermaLink="false">/build-publish/</guid><pubDate>Sun, 20 Aug 2017 04:00:00 GMT</pubDate></item><item><title><![CDATA[JSON gallery]]></title><description><![CDATA[<h2 id="the-goal-image-gallery">The goal: image gallery</h2>
+<p>The desired image gallery is generated automatically from</p>
+<ul>
+<li>a set of image files</li>
+<li>a JSON file referring to those images</li>
+<li>a handlebars template</li>
+<li>front matter variables referring to the JSON file and the template</li>
+</ul>
+<h2 id="implementation">Implementation</h2>
+<h3 id="the-front-matter">The front matter</h3>
 <p><code>jsonFile</code> is the path to the JSON formatted data relative to the <code>$project_dir/edit/data</code> directory, where <code>$project_dir</code> defaults to <code>base</code>.  Setting <code>jsonGallery: true</code> is used by the handlebars template to import the correct partial, in this case <code>json-gallery.hbs</code>.</p>
 <pre><code>template:    post.hbs
 ...
 jsonFile:    galleries/self-portraits.json
 jsonGallery: true
-</code></pre><h2 id="the-data">The data</h2>
+</code></pre><h3 id="the-data">The data</h3>
 <p>Below is the content of <code>$project_dir/edit/data/galleries/self-portraits.json</code> is an array of hash objects.  Each object has two property keys: <code>figcaption</code> and <code>src</code> matching the corresponding HTML elements.  <code>src</code> is a path to an image file relative to <code>$project_dir/edit/images/</code>, which resolves to paths such as <code>$project_dir/edit/images/self-portraits/close.jpg</code>.</p>
 <pre><code>[
     { &quot;figcaption&quot;: &quot;Chuck Close&quot;,
@@ -66,8 +75,8 @@ jsonGallery: true
     { &quot;figcaption&quot;: &quot;Vincent van Gogh&quot;,
         &quot;src&quot;: &quot;self-portraits/van-gogh.jpg&quot; }
 ]
-</code></pre><h2 id="the-templates">The templates</h2>
-<h3 id="top-level-template">Top level template</h3>
+</code></pre><h3 id="the-templates">The templates</h3>
+<h4 id="top-level-template">Top level template</h4>
 <p>In this case the top level template is <code>post.hbs</code> but it could be <code>page.hbs</code> as well.  The point is that the middle level partial template <code>json-main.hbs</code> is imported just below the <code>{{{body}}}</code>.</p>
 <pre><code>{{&gt; header}}
 &lt;div class=&quot;container&quot;&gt;
@@ -84,7 +93,7 @@ jsonGallery: true
     {{/post}}
 &lt;/div&gt;
 {{&gt; js}}
-</code></pre><h3 id="middle-level-template">Middle level template</h3>
+</code></pre><h4 id="middle-level-template">Middle level template</h4>
 <p>This is where the <code>jsonGallery</code> variable selects the bottom level template, <code>json-gallery.hbs</code></p>
 <pre><code>&lt;hr&gt;
 {{#meta}}
@@ -93,19 +102,19 @@ jsonGallery: true
     {{else if jsonGallery}} {{&gt; json-gallery}}
     {{/if}}
 {{/meta}}
-</code></pre><h3 id="bottom-level-template">Bottom level template</h3>
+</code></pre><h4 id="bottom-level-template">Bottom level template</h4>
 <p>The data from the <code>jsonFile</code> (evaluating to <code>galleries/self-portraits.json</code>) was imported into the <code>jsonData</code> variable.  Thus <code>{{#jsonData}}</code></p>
 <pre><code>&lt;div class=json-gallery&gt;
 {{#jsonData}}
     &lt;figure&gt;
         &lt;img
-        src=&quot;../../images/{{src}}&quot;
+        src=&quot;../images/{{src}}&quot;
         alt=&quot;{{li}}&quot;&gt;    
         &lt;figcaption&gt;{{figcaption}}&lt;/figcaption&gt;
     &lt;/figure&gt;
 {{/jsonData}}
 &lt;/div&gt;
-</code></pre><h2 id="the-style-sheet-rule">The style sheet rule</h2>
+</code></pre><h3 id="the-style-sheet-rule">The style sheet rule</h3>
 <p>The previous code chunk shows that with the <code>json-gallery</code> template comes an HTML class of the same name.  So the contents of the <code>&lt;div class=json-gallery&gt;</code> element is styled by the following rule in <code>layout.scss</code>.</p>
 <pre><code>.json-gallery {
     display: flex;
@@ -122,13 +131,21 @@ jsonGallery: true
     }
 }
 </code></pre><h2 id="the-result">The result</h2>
-]]></description><link>/jsongallery/</link><guid isPermaLink="false">/jsongallery/</guid><category><![CDATA[mytag]]></category><pubDate>Thu, 17 Aug 2017 04:00:00 GMT</pubDate></item><item><title><![CDATA[JSON ordered list]]></title><description><![CDATA[<h2 id="the-front-matter">The front matter</h2>
+]]></description><link>/jsongallery/</link><guid isPermaLink="false">/jsongallery/</guid><category><![CDATA[mytag]]></category><pubDate>Thu, 17 Aug 2017 04:00:00 GMT</pubDate></item><item><title><![CDATA[JSON ordered list]]></title><description><![CDATA[<h2 id="the-goal-a-list">The goal: a list</h2>
+<p>The desired list is generated automatically from</p>
+<ul>
+<li>a JSON file containing list items</li>
+<li>a handlebars template</li>
+<li>front matter variables referring to the JSON file and the template</li>
+</ul>
+<h2 id="implementation">Implementation</h2>
+<h3 id="the-front-matter">The front matter</h3>
 <p><code>jsonFile</code> is the path to the JSON formatted data relative to the <code>$project_dir/edit/data</code> directory, where <code>$project_dir</code> defaults to <code>base</code>.  Setting <code>jsonOrderedList: true</code> is used by the handlebars template to import the correct partial, in this case <code>json-gallery.hbs</code>.</p>
 <pre><code>template:    post.hbs
 ...
 jsonFile:    galleries/self-portraits.json
 jsonGallery: true
-</code></pre><h2 id="the-data">The data</h2>
+</code></pre><h3 id="the-data">The data</h3>
 <p>The content of <code>$project_dir/edit/data/lists/greek-alphabet.json</code> is an array of hash objects.  The <code>json-ordered-list</code> handlebars template (below) expects each object to have property key: <code>li</code>, which matches the corresponding HTML element.  These data are imported into the <code>jsonData</code> variable.</p>
 <pre><code>[
     { &quot;li&quot;: &quot;alpha&quot; },
@@ -137,19 +154,19 @@ jsonGallery: true
     { &quot;li&quot;: &quot;delta&quot; },
     { &quot;li&quot;: &quot;epsilon&quot; }
 ]
-</code></pre><h2 id="the-templates">The templates</h2>
-<h3 id="top-and-middle-level">Top and middle level</h3>
+</code></pre><h3 id="the-templates">The templates</h3>
+<h4 id="top-and-middle-level">Top and middle level</h4>
 <p>The top (<code>post.hbs</code> or <code>page.hbs</code>) and middle level (<code>json-main.hbs</code>) template are shared by all types of posts and pages that use external data in some <code>jsonFile</code>.  These templates are described in <a href="../jsongallery">JSON gallery</a>.</p>
-<h3 id="bottom-level-template">Bottom level template</h3>
+<h4 id="bottom-level-template">Bottom level template</h4>
 <p>The partial <code>json-ordered-list.hbs</code> loops over all elements of the array in <code>jsonData</code> and for each element---an object---gets the value of the <code>li</code> property.</p>
 <pre><code>&lt;ol&gt;
 {{#jsonData}}
     &lt;li&gt;{{li}}&lt;/li&gt;
 {{/jsonData}}
 &lt;/ol&gt;
-</code></pre><h2 id="json-unordered-list">JSON unordered list</h2>
+</code></pre><h3 id="json-unordered-list">JSON unordered list</h3>
 <p>With the same JSON data structure can be displayed as unordered list using <code>jsonUnorderedList: true</code> instead of <code>jsonOrderedList: true</code>. That selects <code>json-unordered-list.hbs</code> instead of <code>json-ordered-list.hbs</code>, where the difference is that <code>json-unordered-list.hbs</code> uses an <code>&lt;ul&gt;</code> HTML element instead of <code>&lt;ol&gt;</code>.</p>
-<h2 id="the-result">The Result</h2>
+<h2 id="the-result">The result</h2>
 ]]></description><link>/jsonlist/</link><guid isPermaLink="false">/jsonlist/</guid><category><![CDATA[mytag]]></category><pubDate>Wed, 16 Aug 2017 04:00:00 GMT</pubDate></item><item><title><![CDATA[Markdown Template]]></title><description><![CDATA[<h1 id="h1-heading-8-">h1 Heading 8-)</h1>
 <h2 id="h2-heading">h2 Heading</h2>
 <h3 id="h3-heading">h3 Heading</h3>
