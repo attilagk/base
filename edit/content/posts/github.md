@@ -7,6 +7,8 @@ author:      nicholas
 ---
 ## Version Control
 
+test0
+
 In order to version control your repository, you need to first create a new repository and then point your local version to it.
 
 (this tutorial assumes you have your github credentials on this machine)
